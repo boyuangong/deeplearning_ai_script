@@ -88,7 +88,25 @@
             height: 100vh;
             background: white;
             overflow-y: auto;
+            overflow-x: hidden;
             position: relative;
+        }
+
+        .transcript-notes-panel::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .transcript-notes-panel::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .transcript-notes-panel::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 4px;
+        }
+
+        .transcript-notes-panel::-webkit-scrollbar-thumb:hover {
+            background: #5568d3;
         }
 
         .transcript-notes-toggle-handle {
@@ -276,8 +294,6 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             font-size: 16px;
             line-height: 1.6;
-            overflow-y: auto;
-            max-height: 600px;
         }
 
         .transcript-notes-output h1 {
@@ -755,6 +771,8 @@ Your task is to:
 6. Include examples and explanations where present
 7. Add bullet points for lists and important details
 8. Make the notes scannable and easy to study from
+9. Be thorough and comprehensive - don't skip important details
+10. Expand on concepts where helpful for understanding
 
 Format guidelines:
 - Use # for main topics, ## for sections, ### for subsections
@@ -763,8 +781,10 @@ Format guidelines:
 - Include timestamp references as [→ HH:MM] or [→ MM:SS] next to relevant content
 - Create a table of contents if the lecture is long
 - Add a summary section at the end
+- Include code blocks with proper syntax highlighting where relevant
+- Add visual separators and structure for better readability
 
-Make the notes professional, comprehensive, and beautifully formatted.`
+Make the notes professional, comprehensive, detailed, and beautifully formatted. Prioritize completeness and educational value.`
                         },
                         {
                             role: 'user',
@@ -772,7 +792,7 @@ Make the notes professional, comprehensive, and beautifully formatted.`
                         }
                     ],
                     temperature: 0.7,
-                    max_tokens: 4000
+                    max_tokens: 16000
                 })
             });
 
@@ -789,6 +809,11 @@ Make the notes professional, comprehensive, and beautifully formatted.`
             isPreviewMode = true;
             toggleBtn.style.display = 'inline-block';
             toggleBtn.textContent = 'View Raw Markdown';
+
+            // Scroll to the output section smoothly
+            setTimeout(() => {
+                outputDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
         } catch (error) {
             showError(`Error: ${error.message}`);
             outputDiv.innerHTML = '<p style="color: #c33;">Failed to generate notes. Please check your API key and try again.</p>';
